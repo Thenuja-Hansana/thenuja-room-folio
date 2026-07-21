@@ -3,52 +3,49 @@
 @use "./styles/variables.scss" as vars;
 @use "./styles/defaults.scss" as media;
 
-// THIS SCSS CODE IS RUSHED AND SUPER BAD PLEASE DON'T LOOK AT IT LOOOOL
+// ---------------------------------------------------------------------------
+// Colour palette. Every UI colour lives here, so this is the one place to
+// change when you want a different vibe. The body gets .light-theme or
+// .dark-theme, and the 3D room is graded to match in main.js (ROOM_GRADE).
+// ---------------------------------------------------------------------------
+:root {
+  // Loading screen (shown before a theme is picked)
+  --loading-bg: #2a1f38;
+  --loading-border: #5a3a63;
+  --loading-button-bg: #3d2c4d;
+  --loading-button-border: #1b1426;
+  --loading-text: #f3e3ec;
+  --loading-muted: #c9b6c6;
 
-$themes: (
-  light: (
-    base-dark-purple: #6c3f7c,
-    base-purple: #6e5e9c,
-    base-purple-200: #cdb3d6,
-    base-pink: #eedfe4,
-    base-light-purple: #ead7ef,
-    header-text: #6c3f7c,
-    text: #020202,
-    svgs: #6e5e9c,
-  ),
-  dark: (
-    base-dark-purple: #ddd6d6,
-    base-purple: #2a0f4e,
-    base-purple-200: #62416d,
-    base-pink: #8b4e62,
-    base-light-purple: #401d49,
-    header-text: #e6dede,
-    text: #e6dede,
-    svgs: #e6dede,
-  ),
-);
-
-// Theme mixins
-@mixin themed() {
-  @each $theme, $map in $themes {
-    .#{$theme}-theme & {
-      $theme-map: () !global;
-      @each $key, $value in $map {
-        $theme-map: map-merge(
-          $theme-map,
-          (
-            $key: $value,
-          )
-        ) !global;
-      }
-      @content;
-      $theme-map: null !global;
-    }
-  }
+  --shadow: rgba(20, 10, 25, 0.28) 0px 3px 8px;
+  --theme-transition: background-color 0.6s ease, border-color 0.6s ease,
+    color 0.6s ease, stroke 0.6s ease;
 }
 
-@function t($key) {
-  @return map-get($theme-map, $key);
+.light-theme {
+  --surface: #e9d4db; // modals and buttons
+  --surface-strong: #b48fac; // modal title pill
+  --border: #5a3a63;
+  --heading: #3f2347;
+  --text: #2b1b2e;
+  --icon: #5a3a63;
+  --accent: #b5577a; // list bullets on hover
+  --overlay: rgba(43, 27, 46, 0.3);
+  --scrollbar-track: rgba(90, 58, 99, 0.18);
+  --scrollbar-thumb: #5a3a63;
+}
+
+.dark-theme {
+  --surface: #32263f;
+  --surface-strong: #56406a;
+  --border: #1b1426;
+  --heading: #f3e3ec;
+  --text: #eadfe6;
+  --icon: #eadfe6;
+  --accent: #f0a3bf;
+  --overlay: rgba(12, 8, 20, 0.45);
+  --scrollbar-track: rgba(234, 223, 230, 0.12);
+  --scrollbar-thumb: #b48fac;
 }
 
 * {
@@ -108,7 +105,7 @@ ul {
       content: "•";
       position: absolute;
       left: -1.5rem;
-      color: vars.$base-purple;
+      color: var(--text);
       font-size: 1.5em;
     }
 
@@ -132,7 +129,7 @@ ul {
   // Hover effect
   li:hover {
     &:before {
-      color: vars.$base-dark-purple;
+      color: var(--accent);
       transform: scale(1.2);
       transition: all 0.2s ease;
     }
@@ -156,7 +153,7 @@ ul {
   width: 100%;
   border-radius: 24px;
   object-fit: cover;
-  border: 6px solid vars.$base-purple;
+  border: 6px solid var(--border);
 }
 
 .work-image-wrapper {
@@ -171,7 +168,7 @@ ul {
   width: 100%;
   border-radius: 24px;
   object-fit: cover;
-  border: 6px solid vars.$base-purple;
+  border: 6px solid var(--border);
 }
 
 // Overlay
@@ -184,7 +181,7 @@ ul {
   left: 0;
   z-index: 3;
   display: none;
-  background-color: rgba(32, 32, 32, 0.2);
+  background-color: var(--overlay);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
@@ -203,7 +200,8 @@ ul {
   padding: 30px;
   border-radius: 25px;
   display: none;
-  border: 8px solid vars.$base-purple;
+  border: 8px solid var(--border);
+  background-color: var(--surface);
 }
 
 .about {
@@ -229,9 +227,9 @@ ul {
   @include vars.centered;
   padding: 10px 80px;
   border-radius: 5rem;
-  color: vars.$base-dark-purple;
-  background-color: vars.$base-purple-200;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  color: var(--heading);
+  background-color: var(--surface-strong);
+  box-shadow: var(--shadow);
   @include media.media("<=tablet") {
     font-size: 1.5rem;
     padding: 10px 20px;
@@ -249,7 +247,7 @@ ul {
 }
 
 .modal-paragraph-header-2 {
-  border-top: 2px solid vars.$base-purple;
+  border-top: 2px solid var(--border);
   font-size: 1.2rem;
   padding-top: 24px;
   margin-bottom: 8px;
@@ -277,6 +275,14 @@ ul {
   @include media.media("<=tablet") {
     font-size: 1.3rem;
   }
+}
+
+.list-text,
+.list-text-2,
+.modal-paragraph-header,
+.modal-paragraph-header-2,
+.modal-paragraph-text {
+  color: var(--text);
 }
 
 .modal-content {
@@ -331,11 +337,11 @@ ul {
   &::-webkit-scrollbar-track {
     width: 2px;
     border-radius: 4px;
-    background-color: rgba(111, 73, 116, 0.2);
+    background-color: var(--scrollbar-track);
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: vars.$base-dark-purple;
+    background-color: var(--scrollbar-thumb);
     border-radius: 4px;
   }
 }
@@ -379,14 +385,14 @@ ul {
   position: absolute;
   top: -2.3rem;
   left: -2.3rem;
-  border: 8px solid vars.$base-purple;
-  background-color: vars.$base-light-purple;
+  border: 8px solid var(--border);
+  background-color: var(--surface);
   padding: 15px;
   border-radius: 1.2rem;
   cursor: pointer;
   transform: rotate(-15deg);
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: var(--shadow);
 
   &:hover {
     transform: rotate(45deg) scale(1.3);
@@ -408,7 +414,7 @@ ul {
 .exit-button-svg {
   width: 40px;
   height: 40px;
-  color: vars.$base-purple;
+  color: var(--icon);
   @include media.media("<=tablet") {
     width: 25px;
     height: 25px;
@@ -474,7 +480,6 @@ ul {
 
   cursor: pointer;
 
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   &:hover {
     transform: rotate(-5deg) scale(1.3);
   }
@@ -488,8 +493,6 @@ ul {
 .sound-svg {
   width: 40px;
   height: 40px;
-
-  stroke: vars.$base-purple;
   @include media.media("<=tablet") {
     width: 30px;
     height: 30px;
@@ -497,29 +500,20 @@ ul {
 }
 
 .sound-off-svg {
-  width: 40px;
-  height: 40px;
   display: none;
-  stroke: vars.$base-purple;
-  @include media.media("<=tablet") {
-    top: 30px;
-    right: 96px;
-  }
-  @include media.media("<=tablet") {
-    width: 30px;
-    height: 30px;
-  }
 }
 
 .toggle-buttons {
   @include vars.centered;
-  border: 8px solid vars.$base-purple;
-  background-color: vars.$base-light-purple;
+  border: 8px solid var(--border);
+  background-color: var(--surface);
   padding: 10px;
-  color: vars.$base-purple;
+  color: var(--icon);
   border-radius: 1.2rem;
   cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: var(--shadow);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    var(--theme-transition);
 }
 
 .theme-toggle-button {
@@ -529,7 +523,6 @@ ul {
   z-index: 2;
   cursor: pointer;
 
-  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   &:hover {
     transform: rotate(5deg) scale(1.3);
   }
@@ -540,11 +533,10 @@ ul {
   }
 }
 
-.sun-svg {
+.sun-svg,
+.moon-svg {
   width: 40px;
   height: 40px;
-
-  stroke: vars.$base-purple;
   @include media.media("<=tablet") {
     width: 30px;
     height: 30px;
@@ -552,135 +544,27 @@ ul {
 }
 
 .moon-svg {
-  width: 40px;
-  height: 40px;
-  stroke: vars.$base-purple;
   display: none;
-  @include media.media("<=tablet") {
-    width: 30px;
-    height: 30px;
-  }
 }
 
 .sm-font {
   font-size: 1.2rem;
 }
 
-ul {
-  li {
-    &:before {
-      @include themed() {
-        color: t("text");
-      }
-    }
-
-    &:hover {
-      &:before {
-        @include themed() {
-          color: t("base-purple");
-        }
-      }
-    }
-  }
-}
-
-.base-image {
-  @include themed() {
-    border-color: t("base-purple");
-  }
-}
-
-.work-base-image {
-  @include themed() {
-    border-color: t("base-purple");
-  }
-}
-
-.overlay {
-  @include themed() {
-    background-color: t("overlay-bg");
-  }
-}
-
-.modal {
-  @include themed() {
-    border-color: t("base-purple");
-    background-color: t("base-light-purple");
-  }
-}
-
-.modal-title {
-  @include themed() {
-    color: t("header-text");
-    background-color: t("base-purple-200");
-  }
-}
-
-.modal-paragraph-header-2 {
-  @include themed() {
-    border-color: t("base-purple");
-  }
-}
-
-.modal-content-wrapper {
-  &::-webkit-scrollbar-track {
-    @include themed() {
-      background-color: t("scrollbar-track");
-    }
-  }
-
-  &::-webkit-scrollbar-thumb {
-    @include themed() {
-      background-color: t("base-dark-purple");
-    }
-  }
-}
-
-.list-text,
-.list-text-2,
-.modal-paragraph-header,
-.modal-paragraph-header-2,
-.modal-paragraph-text {
-  @include themed() {
-    color: t("text");
-  }
-}
-
-.modal-exit-button {
-  @include themed() {
-    border-color: t("base-purple");
-    background-color: t("base-light-purple");
-  }
-}
-
-.exit-button-svg {
-  @include themed() {
-    color: t("svgs");
-  }
-}
-
-.toggle-buttons {
-  @include themed() {
-    border-color: t("base-purple");
-    background-color: t("base-light-purple");
-    color: t("base-purple");
-  }
-}
-
 .sound-svg,
-.sound-off-svg,
 .sun-svg,
 .github,
 .linkedin,
 .instagram,
 .mail,
 .moon-svg {
-  @include themed() {
-    stroke: t("svgs");
-    color: t("svgs");
-  }
+  stroke: var(--icon);
+  color: var(--icon);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    var(--theme-transition);
 }
 
+// Loading screen
 .loading-screen {
   @include vars.centered;
   position: fixed;
@@ -692,8 +576,8 @@ ul {
   margin-top: -54vh;
   overflow: hidden;
   z-index: 999999;
-  border: 8px solid vars.$base-purple;
-  background-color: #2a0f4e;
+  border: 8px solid var(--loading-border);
+  background-color: var(--loading-bg);
   transform: perspective(1000px);
   border-radius: 48px;
 }
@@ -704,7 +588,7 @@ ul {
   background-color: transparent;
   padding: 10px 40px;
   outline: none;
-  color: #e6dede;
+  color: var(--loading-text);
   border-radius: 1.2rem;
   border: none;
   font-size: 42px;
@@ -719,7 +603,7 @@ ul {
   @include vars.centered;
   background-color: transparent;
   border: none;
-  color: #c4bebe;
+  color: var(--loading-muted);
 
   position: absolute;
   bottom: 15%;
@@ -728,7 +612,7 @@ ul {
   transform: translate(-50%, -50%);
 
   &:hover {
-    color: #e6dede;
+    color: var(--loading-text);
     cursor: pointer;
   }
 }
@@ -743,7 +627,7 @@ ul {
   font-size: 28px;
   transform: translate(-50%, -50%);
   font-family: "Shifty Notes";
-  color: #e6dede;
+  color: var(--loading-text);
 }
 
 .desktop-instructions {
