@@ -126,6 +126,12 @@ const ROOM_GRADE = {
   },
 };
 
+// Only visible past the edges of the room's backdrop, so it should match it
+const SCENE_BACKGROUND = {
+  day: "#7d6a8c",
+  night: "#2b2850",
+};
+
 /**  -------------------------- Scene setup -------------------------- */
 const canvas = document.querySelector("#experience-canvas");
 const sizes = {
@@ -134,7 +140,7 @@ const sizes = {
 };
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color("#D9CAD1");
+scene.background = new THREE.Color(SCENE_BACKGROUND.day);
 
 const camera = new THREE.PerspectiveCamera(
   35,
@@ -2005,6 +2011,17 @@ const handleThemeToggle = (e) => {
       duration: 1.5,
       ease: "power2.inOut",
     });
+  });
+
+  const backgroundColor = new THREE.Color(
+    isNightMode ? SCENE_BACKGROUND.night : SCENE_BACKGROUND.day
+  );
+  gsap.to(scene.background, {
+    r: backgroundColor.r,
+    g: backgroundColor.g,
+    b: backgroundColor.b,
+    duration: 1.5,
+    ease: "power2.inOut",
   });
 };
 
