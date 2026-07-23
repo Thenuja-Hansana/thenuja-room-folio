@@ -1157,6 +1157,55 @@ const roomMaterials = {
   Fourth: createMaterialForTextureSet(4),
 };
 
+// Debug panel for tuning the look live, only loads when the URL has ?debug
+if (new URLSearchParams(window.location.search).has("debug")) {
+  import("three/addons/libs/lil-gui.module.min.js").then(({ GUI }) => {
+    const gui = new GUI({ title: "Room colour grade" });
+    // Keep it clear of the sound/theme buttons in the top right
+    gui.domElement.style.left = "15px";
+    gui.domElement.style.right = "auto";
+
+    Object.entries(ROOM_GRADE).forEach(([mode, settings]) => {
+      const uniform = roomGradeUniforms[mode];
+      const folder = gui.addFolder(mode);
+      folder.add(uniform, "brightness", 0.5, 1.5, 0.01);
+      folder.add(uniform, "depth", 0.5, 2.5, 0.01);
+      folder.add(uniform, "contrast", 0.5, 1.5, 0.01);
+      folder.add(uniform, "saturation", 0, 2, 0.01);
+      folder
+        .addColor(settings, "tint")
+        .onChange((value) => uniform.tint.set(value));
+      folder.add(uniform, "tintStrength", 0, 1, 0.01);
+      folder
+        .addColor(SCENE_BACKGROUND, mode)
+        .name("background")
+        .onChange((value) => {
+          if ((mode === "night") === isNightMode) scene.background.set(value);
+        });
+    });
+
+    // Copies the current values so you can paste them over ROOM_GRADE
+    gui.add(
+      {
+        copySettings: () => {
+          const toSettings = (mode) => ({
+            ...roomGradeUniforms[mode],
+            tint: ROOM_GRADE[mode].tint,
+          });
+          const text = JSON.stringify(
+            { day: toSettings("day"), night: toSettings("night") },
+            null,
+            2
+          );
+          navigator.clipboard.writeText(text);
+          console.log(text, SCENE_BACKGROUND);
+        },
+      },
+      "copySettings"
+    );
+  });
+}
+
 // Smoke Shader setup
 const smokeGeometry = new THREE.PlaneGeometry(1, 1, 16, 64);
 smokeGeometry.translate(0, 0.5, 0);
