@@ -97,6 +97,35 @@ const buttonSounds = {
   }),
 };
 
+/**  -------------------------- Look & Feel -------------------------- */
+// The room's pinks and purples are baked into the textures in Blender, so instead
+// of re-baking we colour grade them in the theme shader. Tweak these to change the
+// mood of the room. Open the site with ?debug at the end of the URL to tune them live.
+//   brightness   < 1 darker, > 1 lighter
+//   depth        > 1 deepens pastel colours (richer, not greyer), 1 is original
+//   contrast     > 1 punchier, < 1 flatter
+//   saturation   0 greyscale, 1 original, > 1 more colourful
+//   tint         colour "lens" over the room (warm tones = cozier)
+//   tintStrength 0 no tint, 1 full tint
+const ROOM_GRADE = {
+  day: {
+    brightness: 0.95,
+    depth: 1.5,
+    contrast: 1,
+    saturation: 1.2,
+    tint: "#e8c0cf",
+    tintStrength: 0.4,
+  },
+  night: {
+    brightness: 1.02,
+    depth: 1.1,
+    contrast: 1,
+    saturation: 1.12,
+    tint: "#f5c9d6",
+    tintStrength: 0.35,
+  },
+};
+
 /**  -------------------------- Scene setup -------------------------- */
 const canvas = document.querySelector("#experience-canvas");
 const sizes = {
@@ -1079,6 +1108,12 @@ const whiteMaterial = new THREE.MeshBasicMaterial({
   color: 0xffffff,
 });
 
+// Shared by all room materials, so changing a value here updates the whole room
+const roomGradeUniforms = {
+  day: { ...ROOM_GRADE.day, tint: new THREE.Color(ROOM_GRADE.day.tint) },
+  night: { ...ROOM_GRADE.night, tint: new THREE.Color(ROOM_GRADE.night.tint) },
+};
+
 const createMaterialForTextureSet = (textureSet) => {
   const material = new THREE.ShaderMaterial({
     uniforms: {
@@ -1092,6 +1127,8 @@ const createMaterialForTextureSet = (textureSet) => {
       uNightTexture4: { value: loadedTextures.night.Fourth },
       uMixRatio: { value: 0 },
       uTextureSet: { value: textureSet },
+      uDayGrade: { value: roomGradeUniforms.day },
+      uNightGrade: { value: roomGradeUniforms.night },
     },
     vertexShader: themeVertexShader,
     fragmentShader: themeFragmentShader,
