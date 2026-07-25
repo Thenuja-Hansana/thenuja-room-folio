@@ -14,6 +14,8 @@ struct Grade {
     float recolor;
     float hueFrom;
     float hueTo;
+    float blueSaturation;
+    float warmSaturation;
     float brightness;
     float depth;
     float contrast;
@@ -43,8 +45,9 @@ vec3 hsv2rgb(vec3 c) {
 // The room was baked in pinks, purples and lilacs. This squeezes every hue from
 // cyan round to red (180° to 365°) into the hueFrom..hueTo band of blues, keeping
 // their order so objects stay distinguishable. The wood (around 15° to 30°), greens
-// and yellows are outside that range and are left alone. Works in display space so
-// the hue cut-offs match what you see in the texture files.
+// and yellows are outside that range, so they keep their hue and only have their
+// saturation scaled by warmSaturation. Works in display space so the hue cut-offs
+// match what you see in the texture files.
 vec3 recolor(vec3 color, Grade g) {
     vec3 hsv = rgb2hsv(color);
     // Unwrap reds so they sit just after magenta instead of at 0°
@@ -53,9 +56,14 @@ vec3 recolor(vec3 color, Grade g) {
 
     float weight = smoothstep(160.0, 180.0, hue) * (1.0 - smoothstep(364.0, 372.0, hue));
     float t = clamp((hue - 180.0) / (365.0 - 180.0), 0.0, 1.0);
-    vec3 blue = hsv2rgb(vec3(mix(g.hueFrom, g.hueTo, t) / 360.0, hsv.y, hsv.z));
+    vec3 blue = hsv2rgb(vec3(
+        mix(g.hueFrom, g.hueTo, t) / 360.0,
+        clamp(hsv.y * g.blueSaturation, 0.0, 1.0),
+        hsv.z
+    ));
+    vec3 warm = hsv2rgb(vec3(hsv.x, clamp(hsv.y * g.warmSaturation, 0.0, 1.0), hsv.z));
 
-    return mix(color, blue, weight * g.recolor);
+    return mix(color, mix(warm, blue, weight), g.recolor);
 }
 
 vec3 grade(vec3 linearColor, Grade g) {

@@ -101,10 +101,12 @@ const buttonSounds = {
 // The room's pinks and purples are baked into the textures in Blender, so instead
 // of re-baking we recolour and grade them in the theme shader. Tweak these to change
 // the mood of the room. Open the site with ?debug at the end of the URL to tune them live.
-//   recolor      0 original pinks/purples, 1 fully swapped to blues (wood and plants are kept)
-//   hueFrom      hue (degrees) the room's existing blues end up at
-//   hueTo        hue (degrees) the pinks end up at, purples land in between
-//   brightness   < 1 darker, > 1 lighter
+//   recolor        0 original pinks/purples, 1 fully swapped to blues (wood and plants are kept)
+//   hueFrom        hue (degrees) the room's existing blues end up at
+//   hueTo          hue (degrees) the pinks end up at, purples land in between
+//   blueSaturation > 1 turns the near-white walls into a proper blue, 1 keeps them pale
+//   warmSaturation < 1 calms the orange wood and the plants, 1 is original
+//   brightness     < 1 darker, > 1 lighter
 //   depth        > 1 deepens pastel colours (richer, not greyer), 1 is original
 //   contrast     > 1 punchier, < 1 flatter
 //   saturation   0 greyscale, 1 original, > 1 more colourful
@@ -113,19 +115,23 @@ const buttonSounds = {
 const ROOM_GRADE = {
   day: {
     recolor: 1,
-    hueFrom: 205,
-    hueTo: 232,
-    brightness: 0.85,
-    depth: 1.6,
+    hueFrom: 200,
+    hueTo: 222,
+    blueSaturation: 2.2,
+    warmSaturation: 0.7,
+    brightness: 0.82,
+    depth: 1.8,
     contrast: 1.05,
-    saturation: 1.25,
-    tint: "#a9bcdc",
-    tintStrength: 0.45,
+    saturation: 1.15,
+    tint: "#9fb3d6",
+    tintStrength: 0.5,
   },
   night: {
     recolor: 1,
-    hueFrom: 205,
-    hueTo: 232,
+    hueFrom: 200,
+    hueTo: 222,
+    blueSaturation: 1.6,
+    warmSaturation: 0.9,
     brightness: 0.9,
     depth: 1.25,
     contrast: 1.05,
@@ -1180,6 +1186,8 @@ if (new URLSearchParams(window.location.search).has("debug")) {
       folder.add(uniform, "recolor", 0, 1, 0.01);
       folder.add(uniform, "hueFrom", 0, 360, 1);
       folder.add(uniform, "hueTo", 0, 360, 1);
+      folder.add(uniform, "blueSaturation", 0, 4, 0.01);
+      folder.add(uniform, "warmSaturation", 0, 2, 0.01);
       folder.add(uniform, "brightness", 0.5, 1.5, 0.01);
       folder.add(uniform, "depth", 0.5, 2.5, 0.01);
       folder.add(uniform, "contrast", 0.5, 1.5, 0.01);
