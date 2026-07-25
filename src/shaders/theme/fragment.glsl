@@ -37,7 +37,7 @@ vec3 rgb2hsv(vec3 c) {
 
 vec3 hsv2rgb(vec3 c) {
     vec3 p = abs(fract(c.xxx + vec3(1.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0);
-    return c.z * clamp(p - 1.0, 0.0, 1.0);
+    return c.z * mix(vec3(1.0), clamp(p - 1.0, 0.0, 1.0), c.y);
 }
 
 // The room was baked in pinks, purples and lilacs. This squeezes every hue from
