@@ -99,37 +99,46 @@ const buttonSounds = {
 
 /**  -------------------------- Look & Feel -------------------------- */
 // The room's pinks and purples are baked into the textures in Blender, so instead
-// of re-baking we colour grade them in the theme shader. Tweak these to change the
-// mood of the room. Open the site with ?debug at the end of the URL to tune them live.
+// of re-baking we recolour and grade them in the theme shader. Tweak these to change
+// the mood of the room. Open the site with ?debug at the end of the URL to tune them live.
+//   recolor      0 original pinks/purples, 1 fully swapped to blues (wood and plants are kept)
+//   hueFrom      hue (degrees) the room's existing blues end up at
+//   hueTo        hue (degrees) the pinks end up at, purples land in between
 //   brightness   < 1 darker, > 1 lighter
 //   depth        > 1 deepens pastel colours (richer, not greyer), 1 is original
 //   contrast     > 1 punchier, < 1 flatter
 //   saturation   0 greyscale, 1 original, > 1 more colourful
-//   tint         colour "lens" over the room (warm tones = cozier)
+//   tint         colour "lens" over the room (cool tones = moodier)
 //   tintStrength 0 no tint, 1 full tint
 const ROOM_GRADE = {
   day: {
-    brightness: 0.95,
-    depth: 1.5,
-    contrast: 1,
-    saturation: 1.2,
-    tint: "#e8c0cf",
-    tintStrength: 0.4,
+    recolor: 1,
+    hueFrom: 205,
+    hueTo: 232,
+    brightness: 0.85,
+    depth: 1.6,
+    contrast: 1.05,
+    saturation: 1.25,
+    tint: "#a9bcdc",
+    tintStrength: 0.45,
   },
   night: {
-    brightness: 1.02,
-    depth: 1.1,
-    contrast: 1,
-    saturation: 1.12,
-    tint: "#f5c9d6",
-    tintStrength: 0.35,
+    recolor: 1,
+    hueFrom: 205,
+    hueTo: 232,
+    brightness: 0.9,
+    depth: 1.25,
+    contrast: 1.05,
+    saturation: 1.2,
+    tint: "#8fa6d4",
+    tintStrength: 0.45,
   },
 };
 
 // Only visible past the edges of the room's backdrop, so it should match it
 const SCENE_BACKGROUND = {
-  day: "#7d6a8c",
-  night: "#2b2850",
+  day: "#2c3e5c",
+  night: "#0c1424",
 };
 
 /**  -------------------------- Scene setup -------------------------- */
@@ -1168,6 +1177,9 @@ if (new URLSearchParams(window.location.search).has("debug")) {
     Object.entries(ROOM_GRADE).forEach(([mode, settings]) => {
       const uniform = roomGradeUniforms[mode];
       const folder = gui.addFolder(mode);
+      folder.add(uniform, "recolor", 0, 1, 0.01);
+      folder.add(uniform, "hueFrom", 0, 360, 1);
+      folder.add(uniform, "hueTo", 0, 360, 1);
       folder.add(uniform, "brightness", 0.5, 1.5, 0.01);
       folder.add(uniform, "depth", 0.5, 2.5, 0.01);
       folder.add(uniform, "contrast", 0.5, 1.5, 0.01);

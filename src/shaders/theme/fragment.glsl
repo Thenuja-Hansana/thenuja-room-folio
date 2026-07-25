@@ -11,6 +11,9 @@ uniform int uTextureSet;
 
 // Colour grade applied on top of the baked textures (see ROOM_GRADE in main.js)
 struct Grade {
+    float recolor;
+    float hueFrom;
+    float hueTo;
     float brightness;
     float depth;
     float contrast;
@@ -23,9 +26,44 @@ uniform Grade uNightGrade;
 
 varying vec2 vUv;
 
+vec3 rgb2hsv(vec3 c) {
+    vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
+    vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+    vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+    float d = q.x - min(q.w, q.y);
+    float e = 1.0e-10;
+    return vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
+}
+
+vec3 hsv2rgb(vec3 c) {
+    vec3 p = abs(fract(c.xxx + vec3(1.0, 2.0 / 3.0, 1.0 / 3.0)) * 6.0 - 3.0);
+    return c.z * clamp(p - 1.0, 0.0, 1.0);
+}
+
+// The room was baked in pinks, purples and lilacs. This squeezes every hue from
+// cyan round to red (180° to 365°) into the hueFrom..hueTo band of blues, keeping
+// their order so objects stay distinguishable. The wood (around 15° to 30°), greens
+// and yellows are outside that range and are left alone. Works in display space so
+// the hue cut-offs match what you see in the texture files.
+vec3 recolor(vec3 color, Grade g) {
+    vec3 hsv = rgb2hsv(color);
+    // Unwrap reds so they sit just after magenta instead of at 0°
+    float hue = hsv.x * 360.0;
+    if (hue < 90.0) hue += 360.0;
+
+    float weight = smoothstep(160.0, 180.0, hue) * (1.0 - smoothstep(364.0, 372.0, hue));
+    float t = clamp((hue - 180.0) / (365.0 - 180.0), 0.0, 1.0);
+    vec3 blue = hsv2rgb(vec3(mix(g.hueFrom, g.hueTo, t) / 360.0, hsv.y, hsv.z));
+
+    return mix(color, blue, weight * g.recolor);
+}
+
 vec3 grade(vec3 linearColor, Grade g) {
+    vec3 color = recolor(pow(linearColor, vec3(1.0/2.2)), g);
+
     // Tint works like a coloured light over the room, so do it in linear space
-    vec3 color = mix(linearColor, linearColor * g.tint, g.tintStrength);
+    color = pow(color, vec3(2.2));
+    color = mix(color, color * g.tint, g.tintStrength);
 
     color = pow(color, vec3(1.0/2.2));
 
