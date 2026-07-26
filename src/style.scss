@@ -10,42 +10,42 @@
 // ---------------------------------------------------------------------------
 :root {
   // Loading screen (shown before a theme is picked)
-  --loading-bg: #2a1f38;
-  --loading-border: #5a3a63;
-  --loading-button-bg: #3d2c4d;
-  --loading-button-border: #1b1426;
-  --loading-text: #f3e3ec;
-  --loading-muted: #c9b6c6;
+  --loading-bg: #0f1a2e;
+  --loading-border: #1f3a60;
+  --loading-button-bg: #1a2c4a;
+  --loading-button-border: #08101f;
+  --loading-text: #e4edf9;
+  --loading-muted: #9db2d0;
 
-  --shadow: rgba(20, 10, 25, 0.28) 0px 3px 8px;
+  --shadow: rgba(4, 10, 22, 0.35) 0px 3px 8px;
   --theme-transition: background-color 0.6s ease, border-color 0.6s ease,
     color 0.6s ease, stroke 0.6s ease;
 }
 
 .light-theme {
-  --surface: #e9d4db; // modals and buttons
-  --surface-strong: #b48fac; // modal title pill
-  --border: #5a3a63;
-  --heading: #3f2347;
-  --text: #2b1b2e;
-  --icon: #5a3a63;
-  --accent: #b5577a; // list bullets on hover
-  --overlay: rgba(43, 27, 46, 0.3);
-  --scrollbar-track: rgba(90, 58, 99, 0.18);
-  --scrollbar-thumb: #5a3a63;
+  --surface: #cfdcec; // modals and buttons
+  --surface-strong: #7f9dc6; // modal title pill
+  --border: #1c3557;
+  --heading: #0e2140;
+  --text: #0f1f38;
+  --icon: #1c3557;
+  --accent: #2f6fd6; // list bullets on hover
+  --overlay: rgba(10, 22, 44, 0.35);
+  --scrollbar-track: rgba(28, 53, 87, 0.18);
+  --scrollbar-thumb: #1c3557;
 }
 
 .dark-theme {
-  --surface: #32263f;
-  --surface-strong: #56406a;
-  --border: #1b1426;
-  --heading: #f3e3ec;
-  --text: #eadfe6;
-  --icon: #eadfe6;
-  --accent: #f0a3bf;
-  --overlay: rgba(12, 8, 20, 0.45);
-  --scrollbar-track: rgba(234, 223, 230, 0.12);
-  --scrollbar-thumb: #b48fac;
+  --surface: #13223b;
+  --surface-strong: #264270;
+  --border: #060c18;
+  --heading: #e4edf9;
+  --text: #d3e0f2;
+  --icon: #d3e0f2;
+  --accent: #6fb1ff;
+  --overlay: rgba(3, 7, 16, 0.55);
+  --scrollbar-track: rgba(211, 224, 242, 0.12);
+  --scrollbar-thumb: #5b82b8;
 }
 
 * {
