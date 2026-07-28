@@ -1770,7 +1770,7 @@ function handleRaycasterInteraction() {
     const hitbox = currentIntersects[0].object;
     const object = hitboxToObjectMap.get(hitbox);
 
-    if (object.name.includes("Button")) {
+    if (object.name.includes("Button") || object.name.includes("Mailbox")) {
       buttonSounds.click.play();
     }
 
@@ -1853,6 +1853,17 @@ function playHoverAnimation(objectHitbox, isHovering) {
 
   if (object.name.includes("Fish")) {
     scale = 1.2;
+  }
+
+  // Grows from the bottom of its post, so keep it small enough to stay off the wall
+  if (object.name.includes("Mailbox")) {
+    scale = 1.15;
+    gsap.killTweensOf(mailboxFlag.rotation);
+    gsap.to(mailboxFlag.rotation, {
+      z: isHovering ? FLAG_UP : FLAG_DOWN,
+      duration: isHovering ? 0.5 : 0.3,
+      ease: "back.out(2)",
+    });
   }
 
   if (isHovering) {
