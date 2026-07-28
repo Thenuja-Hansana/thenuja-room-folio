@@ -6,6 +6,7 @@ import * as THREE from "three";
 import { OrbitControls } from "./utils/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { createResumeMailbox, FLAG_DOWN, FLAG_UP } from "./mailbox.js";
 
 import smokeVertexShader from "./shaders/smoke/vertex.glsl";
 import smokeFragmentShader from "./shaders/smoke/fragment.glsl";
@@ -479,6 +480,15 @@ function playIntroAnimation() {
     )
     .to(
       contactBtn.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.6"
+    )
+    .to(
+      resumeMailbox.scale,
       {
         x: 1,
         y: 1,
@@ -1617,6 +1627,21 @@ loader.load("/models/Room_Portfolio.glb", (glb) => {
 
   scene.add(glb.scene);
 });
+
+/**  -------------------------- Resume Mailbox -------------------------- */
+// Stands on the pond just past the piano wall, mirroring the sign on the left.
+// Built in code (see mailbox.js) rather than in the Blender file.
+const {
+  mailbox: resumeMailbox,
+  flag: mailboxFlag,
+  setNightMix: setMailboxNightMix,
+} = createResumeMailbox();
+resumeMailbox.position.set(4.3, -1.1, -4.45);
+resumeMailbox.scale.set(0, 0, 0);
+resumeMailbox.userData.originalScale = new THREE.Vector3(1, 1, 1);
+resumeMailbox.userData.initialScale = new THREE.Vector3(1, 1, 1);
+objectsNeedingHitboxes.push(resumeMailbox);
+scene.add(resumeMailbox);
 
 /**  -------------------------- Raycaster setup -------------------------- */
 
