@@ -14,7 +14,7 @@ const COLORS = {
   door: { day: "#3d5c98", night: "#14264b" },
   metal: { day: "#dfe5ef", night: "#39435a" },
   flag: { day: "#d65a40", night: "#4a1f28" },
-  stone: { day: "#b3bdc9", night: "#202a3a" },
+  stone: { day: "#9aa5b3", night: "#202a3a" },
   // Multiplies the painted sign texture, so white shows it as painted
   sign: { day: "#ffffff", night: "#4a4658" },
 };

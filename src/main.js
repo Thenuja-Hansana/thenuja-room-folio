@@ -1636,7 +1636,7 @@ const {
   flag: mailboxFlag,
   setNightMix: setMailboxNightMix,
 } = createResumeMailbox();
-resumeMailbox.position.set(4.3, -1.1, -4.45);
+resumeMailbox.position.set(4.1, -1.1, -3.85);
 resumeMailbox.scale.set(0, 0, 0);
 resumeMailbox.userData.originalScale = new THREE.Vector3(1, 1, 1);
 resumeMailbox.userData.initialScale = new THREE.Vector3(1, 1, 1);
