@@ -1724,6 +1724,11 @@ function createStaticHitbox(originalObject) {
   let hitboxGeometry;
   let sizeMultiplier = { x: 1.1, y: 1.75, z: 1.1 };
 
+  // Already tall, so a taller hitbox would swallow the plants next to it
+  if (originalObject.name.includes("Mailbox")) {
+    sizeMultiplier = { x: 1.1, y: 1.05, z: 1.1 };
+  }
+
   hitboxGeometry = new THREE.BoxGeometry(
     size.x * sizeMultiplier.x,
     size.y * sizeMultiplier.y,
