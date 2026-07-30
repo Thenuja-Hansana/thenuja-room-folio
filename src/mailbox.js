@@ -9,14 +9,14 @@ export const FLAG_UP = 0;
 // Colours picked to sit with the graded room (see ROOM_GRADE in main.js).
 // Each material fades from its day colour to its night colour with the theme.
 const COLORS = {
-  wood: { day: "#9a786c", night: "#1c1a28" },
-  body: { day: "#4d6fae", night: "#1a2f5a" },
-  door: { day: "#3d5c98", night: "#14264b" },
-  metal: { day: "#dfe5ef", night: "#39435a" },
-  flag: { day: "#d65a40", night: "#4a1f28" },
-  stone: { day: "#9aa5b3", night: "#202a3a" },
+  wood: { day: "#9a786c", night: "#17151f" },
+  body: { day: "#4d6fae", night: "#142548" },
+  door: { day: "#3d5c98", night: "#0f1d3b" },
+  metal: { day: "#dfe5ef", night: "#303a50" },
+  flag: { day: "#d65a40", night: "#401b24" },
+  stone: { day: "#9aa5b3", night: "#151d2b" },
   // Multiplies the painted sign texture, so white shows it as painted
-  sign: { day: "#ffffff", night: "#4a4658" },
+  sign: { day: "#ffffff", night: "#433f52" },
 };
 
 // Carved letters in the same font and style as the My Work / About / Contact sign
