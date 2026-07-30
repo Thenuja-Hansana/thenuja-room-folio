@@ -2075,6 +2075,8 @@ const toggleFavicons = () => {
 };
 
 let isNightMode = false;
+// The room's shader fades with uMixRatio, the objects added in code follow along with this
+const nightMix = { value: 0 };
 
 const handleThemeToggle = (e) => {
   e.preventDefault();
@@ -2121,6 +2123,15 @@ const handleThemeToggle = (e) => {
       duration: 1.5,
       ease: "power2.inOut",
     });
+  });
+
+  gsap.to(nightMix, {
+    value: isNightMode ? 1 : 0,
+    duration: 1.5,
+    ease: "power2.inOut",
+    onUpdate: () => {
+      setMailboxNightMix(nightMix.value);
+    },
   });
 
   const backgroundColor = new THREE.Color(
