@@ -225,6 +225,7 @@ const modals = {
   work: document.querySelector(".modal.work"),
   about: document.querySelector(".modal.about"),
   contact: document.querySelector(".modal.contact"),
+  resume: document.querySelector(".modal.resume"),
 };
 
 const overlay = document.querySelector(".overlay");
@@ -1824,6 +1825,8 @@ function handleRaycasterInteraction() {
       showModal(modals.about);
     } else if (object.name.includes("Contact_Button")) {
       showModal(modals.contact);
+    } else if (object.name.includes("Resume_Mailbox")) {
+      showModal(modals.resume);
     }
   }
 }
