@@ -7,6 +7,7 @@ import { OrbitControls } from "./utils/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { createResumeMailbox, FLAG_DOWN, FLAG_UP } from "./mailbox.js";
+import { showResume } from "./resumeViewer.js";
 
 import smokeVertexShader from "./shaders/smoke/vertex.glsl";
 import smokeFragmentShader from "./shaders/smoke/fragment.glsl";
@@ -1827,6 +1828,7 @@ function handleRaycasterInteraction() {
       showModal(modals.contact);
     } else if (object.name.includes("Resume_Mailbox")) {
       showModal(modals.resume);
+      showResume(modals.resume);
     }
   }
 }
