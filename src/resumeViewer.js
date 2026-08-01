@@ -32,17 +32,17 @@ const renderResume = async (viewer, url) => {
   ]);
   pdfjs.GlobalWorkerOptions.workerSrc = workerSrc;
 
-  const pdf = await pdfjs.getDocument(url).promise;
+  const pdf = await pdfjs.getDocument({ url }).promise;
 
   const pages = [];
   for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
     const page = await pdf.getPage(pageNumber);
-    pages.push(await renderPage(pdfjs, page, viewer.clientWidth));
+    pages.push(await renderPage(page, viewer.clientWidth));
   }
   viewer.replaceChildren(...pages);
 };
 
-const renderPage = async (pdfjs, page, cssWidth) => {
+const renderPage = async (page, cssWidth) => {
   const pageViewport = page.getViewport({ scale: 1 });
   const pixelRatio = Math.max(window.devicePixelRatio || 1, 2);
   const renderWidth = Math.min(
@@ -68,9 +68,14 @@ const renderPage = async (pdfjs, page, cssWidth) => {
   annotations
     .filter((annotation) => annotation.subtype === "Link" && annotation.url)
     .forEach((annotation) => {
-      const [left, top, right, bottom] = pdfjs.Util.normalizeRect(
-        pageViewport.convertToViewportRectangle(annotation.rect)
-      );
+      // PDF coordinates start at the bottom left, so convert both corners
+      const [x1, y1, x2, y2] = annotation.rect;
+      const [ax, ay] = pageViewport.convertToViewportPoint(x1, y1);
+      const [bx, by] = pageViewport.convertToViewportPoint(x2, y2);
+      const left = Math.min(ax, bx);
+      const right = Math.max(ax, bx);
+      const top = Math.min(ay, by);
+      const bottom = Math.max(ay, by);
 
       const link = document.createElement("a");
       link.className = "resume-link";
