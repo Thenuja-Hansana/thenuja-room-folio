@@ -1,7 +1,7 @@
 import * as THREE from "three";
 
 // The room's lighting is baked into its textures and the scene has no lights, so the
-// objects added in code (the mailbox) use matcap materials. A matcap is a painted
+// objects added in code (mailbox, sign lamp) use matcap materials. A matcap is a painted
 // "lit sphere" that gives soft shading without any lights, which keeps them looking like
 // the rest of the room.
 let matcapTexture = null;
