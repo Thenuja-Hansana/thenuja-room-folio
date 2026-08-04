@@ -7,6 +7,7 @@ import { OrbitControls } from "./utils/OrbitControls.js";
 import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { createResumeMailbox, FLAG_DOWN, FLAG_UP } from "./mailbox.js";
+import { createSignLamp } from "./signLamp.js";
 import { showResume } from "./resumeViewer.js";
 
 import smokeVertexShader from "./shaders/smoke/vertex.glsl";
@@ -475,6 +476,15 @@ function playIntroAnimation() {
     x: 1,
     y: 1,
   })
+    .to(
+      signLamp.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+      },
+      "-=0.4"
+    )
     .to(
       plank2.scale,
       {
@@ -1699,6 +1709,13 @@ resumeMailbox.userData.initialScale = new THREE.Vector3(1, 1, 1);
 objectsNeedingHitboxes.push(resumeMailbox);
 scene.add(resumeMailbox);
 
+/**  -------------------------- Sign Lamp -------------------------- */
+// Sits on the My Work / About / Contact sign and lights it up at night (see SIGN_LAMP)
+const { lamp: signLamp, setNightMix: setSignLampNightMix } =
+  createSignLamp(SIGN_LAMP);
+signLamp.scale.set(0, 0, 0);
+scene.add(signLamp);
+
 /**  -------------------------- Raycaster setup -------------------------- */
 
 const raycasterObjects = [];
@@ -2190,6 +2207,7 @@ const handleThemeToggle = (e) => {
     ease: "power2.inOut",
     onUpdate: () => {
       setMailboxNightMix(nightMix.value);
+      setSignLampNightMix(nightMix.value);
     },
   });
 
