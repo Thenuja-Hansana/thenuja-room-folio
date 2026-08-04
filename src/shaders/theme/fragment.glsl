@@ -26,7 +26,17 @@ struct Grade {
 uniform Grade uDayGrade;
 uniform Grade uNightGrade;
 
+// Lamp over the hanging sign (see SIGN_LAMP in main.js). Only materials with
+// uLampStrength above 0 are lit by it, so it can't spill into the room.
+uniform float uLampStrength;
+uniform vec3 uLampPosition;
+uniform vec3 uLampDirection;
+uniform vec3 uLampColor;
+uniform float uLampRange;
+uniform float uLampConeCos;
+
 varying vec2 vUv;
+varying vec3 vWorldPosition;
 
 vec3 rgb2hsv(vec3 c) {
     vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
@@ -85,6 +95,17 @@ vec3 grade(vec3 linearColor, Grade g) {
     return clamp(color, 0.0, 1.0);
 }
 
+// Spotlight: 1 right under the lamp, fading towards the edge of its cone and with distance
+float lampLight() {
+    vec3 toFragment = vWorldPosition - uLampPosition;
+    float distanceToLamp = length(toFragment);
+    float angleCos = dot(toFragment / distanceToLamp, uLampDirection);
+
+    float cone = smoothstep(uLampConeCos, mix(uLampConeCos, 1.0, 0.35), angleCos);
+    float falloff = 1.0 - smoothstep(uLampRange * 0.2, uLampRange, distanceToLamp);
+    return cone * falloff;
+}
+
 void main() {
     vec3 dayColor;
     vec3 nightColor;
@@ -104,7 +125,15 @@ void main() {
     }
 
     // Remove the pow() inside grade() and add the other #includes if you want your glass to be unaffected
-    vec3 finalColor = mix(grade(dayColor, uDayGrade), grade(nightColor, uNightGrade), uMixRatio);
+    vec3 dayGraded = grade(dayColor, uDayGrade);
+    vec3 finalColor = mix(dayGraded, grade(nightColor, uNightGrade), uMixRatio);
+
+    // At night the lamp brings back the daytime look where it shines, in its warm colour
+    if (uLampStrength > 0.0) {
+        float lamp = lampLight() * uLampStrength * uMixRatio;
+        finalColor = mix(finalColor, dayGraded * uLampColor, clamp(lamp, 0.0, 1.0));
+    }
+
     gl_FragColor = vec4(finalColor, 1.0);
 
     // Use this instead of the pow() calculation to avoid issues with the glass

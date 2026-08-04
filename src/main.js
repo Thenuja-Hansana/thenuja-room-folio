@@ -143,6 +143,28 @@ const ROOM_GRADE = {
   },
 };
 
+// Lamp on top of the My Work / About / Contact sign, so the sign can be read at night.
+// Positions are in the room's world space. At night its light brings back the sign's
+// daytime look in the lamp's colour, strongest at the top and fading towards the bottom.
+//   mount      where it sits on the sign's top plank
+//   head       where the bulb is
+//   target     the point on the sign it shines at
+//   color      colour of the light
+//   strength   0 off, 1 the lit part of the sign looks as bright as in the day
+//   range      how far the light reaches before it has faded out
+//   coneAngle  half-angle of the light cone in degrees
+//   beamLength length of the visible beam of light
+const SIGN_LAMP = {
+  mount: new THREE.Vector3(-3.57, 6.58, 3.1),
+  head: new THREE.Vector3(-2.75, 7.0, 3.1),
+  target: new THREE.Vector3(-3.5, 4.4, 3.1),
+  color: "#ffd7a0",
+  strength: 0.95,
+  range: 6.5,
+  coneAngle: 55,
+  beamLength: 3.6,
+};
+
 // Only visible past the edges of the room's backdrop, so it should match it
 const SCENE_BACKGROUND = {
   day: "#2c3e5c",
@@ -1147,7 +1169,24 @@ const roomGradeUniforms = {
   night: { ...ROOM_GRADE.night, tint: new THREE.Color(ROOM_GRADE.night.tint) },
 };
 
-const createMaterialForTextureSet = (textureSet) => {
+// Also shared by all room materials. The room shader works in display (sRGB) colour
+// values, so the lamp colour is converted to match.
+const signLampUniforms = {
+  uLampPosition: { value: SIGN_LAMP.head },
+  uLampDirection: {
+    value: SIGN_LAMP.target.clone().sub(SIGN_LAMP.head).normalize(),
+  },
+  uLampColor: {
+    value: new THREE.Color(SIGN_LAMP.color).convertLinearToSRGB(),
+  },
+  uLampRange: { value: SIGN_LAMP.range },
+  uLampConeCos: {
+    value: Math.cos(THREE.MathUtils.degToRad(SIGN_LAMP.coneAngle)),
+  },
+};
+
+// litBySignLamp: only the sign's own pieces get the lamp's light
+const createMaterialForTextureSet = (textureSet, litBySignLamp = false) => {
   const material = new THREE.ShaderMaterial({
     uniforms: {
       uDayTexture1: { value: loadedTextures.day.First },
@@ -1162,6 +1201,8 @@ const createMaterialForTextureSet = (textureSet) => {
       uTextureSet: { value: textureSet },
       uDayGrade: { value: roomGradeUniforms.day },
       uNightGrade: { value: roomGradeUniforms.night },
+      ...signLampUniforms,
+      uLampStrength: { value: litBySignLamp ? SIGN_LAMP.strength : 0 },
     },
     vertexShader: themeVertexShader,
     fragmentShader: themeFragmentShader,
@@ -1182,7 +1223,16 @@ const roomMaterials = {
   Second: createMaterialForTextureSet(2),
   Third: createMaterialForTextureSet(3),
   Fourth: createMaterialForTextureSet(4),
+  // The sign's planks and buttons are in the third texture set
+  LitSign: createMaterialForTextureSet(3, true),
 };
+
+const signLampLitObjects = [
+  "Hanging_Plank",
+  "My_Work_Button",
+  "About_Button",
+  "Contact_Button",
+];
 
 // Debug panel for tuning the look live, only loads when the URL has ?debug
 if (new URLSearchParams(window.location.search).has("debug")) {
@@ -1581,7 +1631,11 @@ loader.load("/models/Room_Portfolio.glb", (glb) => {
       } else {
         Object.keys(textureMap).forEach((key) => {
           if (child.name.includes(key)) {
-            child.material = roomMaterials[key];
+            child.material = signLampLitObjects.some((name) =>
+              child.name.includes(name)
+            )
+              ? roomMaterials.LitSign
+              : roomMaterials[key];
 
             if (child.name.includes("Fan")) {
               if (
