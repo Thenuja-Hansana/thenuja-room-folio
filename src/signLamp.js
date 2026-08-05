@@ -16,7 +16,7 @@ const SHADE_INSIDE_ON = new THREE.Color("#ffd49a");
 
 // How strong the glow around the bulb and the visible beam get at night
 const HALO_OPACITY = 0.9;
-const BEAM_OPACITY = 0.32;
+const BEAM_OPACITY = 0.9;
 
 const createHaloTexture = () => {
   const size = 128;
