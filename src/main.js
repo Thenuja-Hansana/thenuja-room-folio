@@ -157,7 +157,7 @@ const ROOM_GRADE = {
 //   beamLength length of the visible beam of light
 const SIGN_LAMP = {
   mount: new THREE.Vector3(-3.57, 6.58, 3.1),
-  head: new THREE.Vector3(-2.75, 7.0, 3.1),
+  head: new THREE.Vector3(-2.95, 6.88, 3.1),
   target: new THREE.Vector3(-3.5, 4.4, 3.1),
   color: "#ffd7a0",
   strength: 0.95,
