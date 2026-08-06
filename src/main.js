@@ -8,6 +8,7 @@ import { DRACOLoader } from "three/addons/loaders/DRACOLoader.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { createResumeMailbox, FLAG_DOWN, FLAG_UP } from "./mailbox.js";
 import { createSignLamp } from "./signLamp.js";
+import { createFireflies } from "./fireflies.js";
 import { showResume } from "./resumeViewer.js";
 
 import smokeVertexShader from "./shaders/smoke/vertex.glsl";
@@ -1697,17 +1698,26 @@ loader.load("/models/Room_Portfolio.glb", (glb) => {
 /**  -------------------------- Resume Mailbox -------------------------- */
 // Stands on the pond just past the piano wall, mirroring the sign on the left.
 // Built in code (see mailbox.js) rather than in the Blender file.
+// At night fireflies drift around it and light up its sign (see fireflies.js).
+const fireflies = createFireflies({ count: 14, signCount: 3 });
+
 const {
   mailbox: resumeMailbox,
   flag: mailboxFlag,
+  signCenter: mailboxSignCenter,
   setNightMix: setMailboxNightMix,
-} = createResumeMailbox();
+} = createResumeMailbox({ addLight: fireflies.addLight });
 resumeMailbox.position.set(4.1, -1.1, -3.85);
 resumeMailbox.scale.set(0, 0, 0);
 resumeMailbox.userData.originalScale = new THREE.Vector3(1, 1, 1);
 resumeMailbox.userData.initialScale = new THREE.Vector3(1, 1, 1);
 objectsNeedingHitboxes.push(resumeMailbox);
 scene.add(resumeMailbox);
+
+fireflies.points.position
+  .copy(mailboxSignCenter)
+  .add(resumeMailbox.position);
+scene.add(fireflies.points);
 
 /**  -------------------------- Sign Lamp -------------------------- */
 // Sits on the My Work / About / Contact sign and lights it up at night (see SIGN_LAMP)
@@ -2272,6 +2282,9 @@ const render = (timestamp) => {
 
   // Update Clock hand rotation
   updateClockHands();
+
+  // Fireflies around the mailbox (only at night)
+  fireflies.update(elapsedTime, camera, nightMix.value);
 
   // Fan rotate animation
   xAxisFans.forEach((fan) => {
