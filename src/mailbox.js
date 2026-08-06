@@ -74,9 +74,11 @@ const createMailboxShape = (width, sideHeight) => {
  * Builds a mailbox on a wooden post with a "Resume" sign. The group's origin is
  * at the bottom of the post, so it grows out of the ground when scaled in.
  * The mailbox runs along x with its door facing +x, and the sign faces +z.
+ * addLight lights its materials with something extra (see matcap.js), and the
+ * returned signCenter is the middle of the sign's front face, relative to the group.
  */
-export const createResumeMailbox = () => {
-  const { createMaterial, setNightMix } = createThemedMaterials();
+export const createResumeMailbox = ({ addLight } = {}) => {
+  const { createMaterial, setNightMix } = createThemedMaterials({ addLight });
 
   const materials = {
     wood: createMaterial(COLORS.wood),
@@ -215,5 +217,7 @@ export const createResumeMailbox = () => {
   signText.position.set(0, signY, signZ + signDepth / 2 + 0.005);
   mailbox.add(signText);
 
-  return { mailbox, flag, setNightMix };
+  const signCenter = new THREE.Vector3(0, signY, signZ + signDepth / 2);
+
+  return { mailbox, flag, signCenter, setNightMix };
 };

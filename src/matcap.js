@@ -39,9 +39,10 @@ const getMatcapTexture = () => {
 /**
  * Makes matcap materials that fade between a day and a night colour with the theme.
  * createMaterial({ day, night }, options) makes one, and setNightMix(0..1) fades them
- * all (0 is the day colours, 1 the night colours).
+ * all (0 is the day colours, 1 the night colours). addLight(material, dayColor), if
+ * given, is called for each material to light it with something extra (see fireflies.js).
  */
-export const createThemedMaterials = () => {
+export const createThemedMaterials = ({ addLight } = {}) => {
   const tintedMaterials = [];
 
   const createMaterial = ({ day, night }, options = {}) => {
@@ -53,6 +54,7 @@ export const createThemedMaterials = () => {
       ...options,
     });
     tintedMaterials.push({ material, day: dayColor, night: nightColor });
+    addLight?.(material, dayColor);
     return material;
   };
 
