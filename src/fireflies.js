@@ -10,7 +10,7 @@ const LIGHT_COLOR = "#f2ffcc";
 const LIGHT_RADIUS = 1.15;
 const LIGHT_STRENGTH = 1.4;
 // Size of the glowing dots
-const POINT_SIZE = 420;
+const POINT_SIZE = 950;
 
 const randomBetween = (min, max) => min + Math.random() * (max - min);
 const randomPhase = () => randomBetween(0, Math.PI * 2);
@@ -57,7 +57,7 @@ export const createFireflies = ({ count, signCount }) => {
       phase: new THREE.Vector3(randomPhase(), randomPhase(), randomPhase()),
       blinkSpeed: randomBetween(0.8, 1.8),
       blinkPhase: randomPhase(),
-      minBrightness: nearSign ? 0.55 : 0.08,
+      minBrightness: nearSign ? 0.55 : 0.15,
     };
   });
 
@@ -174,7 +174,7 @@ export const createFireflies = ({ count, signCount }) => {
       // Short bright flashes with dim gaps between them
       const pulse = Math.pow(
         0.5 + 0.5 * Math.sin(time * firefly.blinkSpeed + firefly.blinkPhase),
-        3
+        2
       );
       brightness[index] =
         firefly.minBrightness + (1 - firefly.minBrightness) * pulse;
