@@ -1,12 +1,35 @@
+// The site uses the same font as the CV: Calibri. Calibri can't be put on a website
+// without a licence, so each style uses Calibri where it's already installed (Windows
+// and Microsoft Office) and otherwise Carlito, a free font made to match Calibri exactly
+// (OFL licensed, Latin characters only).
 @font-face {
-  font-family: "Shifty Notes";
-  src: url("/fonts/ShiftyNotes-Regular.woff2") format("woff2"),
-    url("/fonts/ShiftyNotes-Regular.woff") format("woff");
+  font-family: "Calibri Web";
+  src: local("Calibri"), url("/fonts/Carlito-Regular.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
+@font-face {
+  font-family: "Calibri Web";
+  src: local("Calibri Bold"), local("Calibri-Bold"),
+    url("/fonts/Carlito-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Calibri Web";
+  src: local("Calibri Italic"), local("Calibri-Italic"),
+    url("/fonts/Carlito-Italic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+// Only used for the carved "Resume" sign on the 3D mailbox (see mailbox.js), so it
+// matches the My Work / About / Contact sign that's baked into the room
 @font-face {
   font-family: "Motley Forces";
   src: url("/fonts/MotleyForces-Regular.woff2") format("woff2"),

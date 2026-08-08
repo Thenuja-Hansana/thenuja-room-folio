@@ -55,6 +55,11 @@
   box-sizing: border-box;
 }
 
+// The same font as the CV (see styles/fonts.scss)
+:root {
+  --font: "Calibri Web", Calibri, Carlito, sans-serif;
+}
+
 body {
   overflow: hidden;
 }
@@ -85,13 +90,14 @@ body {
 // Text styles
 h1,
 h2 {
-  font-family: "Motley Forces";
+  font-family: var(--font);
+  font-weight: bold;
 }
 
 p,
 ul,
 li {
-  font-family: "Shifty Notes";
+  font-family: var(--font);
 }
 
 ul {
@@ -366,7 +372,8 @@ ul {
 
 .resume-download {
   padding: 10px 28px;
-  font-family: "Motley Forces";
+  font-family: var(--font);
+  font-weight: bold;
   font-size: 1.3rem;
   text-decoration: none;
   color: var(--heading);
@@ -660,7 +667,8 @@ ul {
 }
 
 .loading-screen-button {
-  font-family: "Motley Forces";
+  font-family: var(--font);
+  font-weight: bold;
   @include vars.centered;
   background-color: transparent;
   padding: 10px 40px;
@@ -694,7 +702,8 @@ ul {
 }
 
 .no-sound-button {
-  font-family: "Motley Forces";
+  font-family: var(--font);
+  font-weight: bold;
   @include vars.centered;
   background-color: transparent;
   border: none;
@@ -721,7 +730,7 @@ ul {
   width: 90%;
   font-size: 28px;
   transform: translate(-50%, -50%);
-  font-family: "Shifty Notes";
+  font-family: var(--font);
   color: var(--loading-text);
 }
 
