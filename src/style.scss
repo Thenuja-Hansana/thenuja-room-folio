@@ -246,11 +246,11 @@ ul {
 }
 
 .modal-paragraph-header {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   margin-top: 24px;
   margin-bottom: 8px;
   @include media.media("<=tablet") {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -260,28 +260,31 @@ ul {
   padding-top: 24px;
   margin-bottom: 8px;
   @include media.media("<=tablet") {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 }
 
 .modal-paragraph-text {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.45;
   @include media.media("<=tablet") {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 }
 
 .list-text {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  line-height: 1.45;
   @include media.media("<=tablet") {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
 }
 
 .list-text-2 {
-  font-size: 1.2rem;
+  font-size: 1.05rem;
+  line-height: 1.45;
   @include media.media("<=tablet") {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
 }
 
@@ -366,7 +369,7 @@ ul {
 .resume-status {
   padding: 60px 0;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: var(--text);
 }
 
@@ -628,7 +631,7 @@ ul {
 }
 
 .sm-font {
-  font-size: 1.2rem;
+  font-size: 1.05rem;
 }
 
 .sound-svg,
@@ -712,7 +715,7 @@ ul {
   position: absolute;
   bottom: 15%;
   left: 50%;
-  font-size: 16px;
+  font-size: 18px;
   transform: translate(-50%, -50%);
 
   &:hover {
