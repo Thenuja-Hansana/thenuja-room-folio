@@ -153,6 +153,17 @@ ul.emoji-bullets li:before {
   line-height: 1.7;
 }
 
+// Links inside modal text
+.text-link {
+  color: var(--heading);
+  font-weight: bold;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: var(--accent);
+  }
+}
+
 // Image Styles
 
 .image-wrapper {
