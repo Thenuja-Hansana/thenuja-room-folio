@@ -114,6 +114,8 @@ ul {
       left: -1.5rem;
       color: var(--text);
       font-size: 1.5em;
+      // Same line height as the text (1.45), so the bullet lines up with the first line
+      line-height: 0.97;
     }
 
     // Nested lists
@@ -141,6 +143,14 @@ ul {
       transition: all 0.2s ease;
     }
   }
+}
+
+// Lists that use 🔹 as the bullet
+ul.emoji-bullets li:before {
+  content: "🔹";
+  left: -1.9rem;
+  font-size: 0.85em;
+  line-height: 1.7;
 }
 
 // Image Styles
