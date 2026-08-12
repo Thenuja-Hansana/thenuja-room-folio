@@ -9,6 +9,7 @@ import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { createResumeMailbox, FLAG_DOWN, FLAG_UP } from "./mailbox.js";
 import { createSignLamp } from "./signLamp.js";
 import { createFireflies } from "./fireflies.js";
+import { createShelfAwards } from "./shelfAwards.js";
 import { showResume } from "./resumeViewer.js";
 
 import smokeVertexShader from "./shaders/smoke/vertex.glsl";
@@ -580,7 +581,7 @@ function playIntroAnimation() {
     delay: 0.4,
   })
     .to(
-      github.scale,
+      certificate.scale,
       {
         x: 1,
         y: 1,
@@ -589,16 +590,7 @@ function playIntroAnimation() {
       "-=0.5"
     )
     .to(
-      youtube.scale,
-      {
-        x: 1,
-        y: 1,
-        z: 1,
-      },
-      "-=0.6"
-    )
-    .to(
-      twitter.scale,
+      trophy.scale,
       {
         x: 1,
         y: 1,
@@ -1351,10 +1343,7 @@ let plank1,
   workBtn,
   aboutBtn,
   contactBtn,
-  boba,
-  github,
-  youtube,
-  twitter;
+  boba;
 
 let letter1, letter2, letter3, letter4, letter5, letter6, letter7, letter8;
 
@@ -1406,9 +1395,6 @@ const objectsWithIntroAnimations = [
   "About_Button",
   "Contact_Button",
   "Boba",
-  "GitHub",
-  "YouTube",
-  "Twitter",
   "Name_Letter_1",
   "Name_Letter_2",
   "Name_Letter_3",
@@ -1461,6 +1447,11 @@ const objectsWithIntroAnimations = [
   "B2_Key",
 ];
 
+// Blocks on the top shelf that linked to the original author's GitHub, YouTube and X.
+// They're taken out of the model when it loads, and the certificate and trophy from
+// shelfAwards.js stand in their place.
+const removedFromRoom = ["GitHub", "YouTube", "Twitter"];
+
 function hasIntroAnimation(objectName) {
   return objectsWithIntroAnimations.some((animatedName) =>
     objectName.includes(animatedName)
@@ -1468,8 +1459,15 @@ function hasIntroAnimation(objectName) {
 }
 
 loader.load("/models/Room_Portfolio.glb", (glb) => {
+  const objectsToRemove = [];
+
   glb.scene.traverse((child) => {
     if (child.isMesh) {
+      if (removedFromRoom.some((name) => child.name.includes(name))) {
+        objectsToRemove.push(child);
+        return;
+      }
+
       if (child.name.includes("Fish_Fourth")) {
         fish = child;
         child.position.x += 0.04;
@@ -1523,15 +1521,6 @@ loader.load("/models/Room_Portfolio.glb", (glb) => {
         child.scale.set(0, 0, 0);
       } else if (child.name.includes("Boba")) {
         boba = child;
-        child.scale.set(0, 0, 0);
-      } else if (child.name.includes("GitHub")) {
-        github = child;
-        child.scale.set(0, 0, 0);
-      } else if (child.name.includes("YouTube")) {
-        youtube = child;
-        child.scale.set(0, 0, 0);
-      } else if (child.name.includes("Twitter")) {
-        twitter = child;
         child.scale.set(0, 0, 0);
       } else if (child.name.includes("Name_Letter_1")) {
         letter1 = child;
@@ -1684,6 +1673,8 @@ loader.load("/models/Room_Portfolio.glb", (glb) => {
     }
   });
 
+  objectsToRemove.forEach((object) => object.removeFromParent());
+
   if (coffeePosition) {
     smoke.position.set(
       coffeePosition.x,
@@ -1726,17 +1717,31 @@ const { lamp: signLamp, setNightMix: setSignLampNightMix } =
 signLamp.scale.set(0, 0, 0);
 scene.add(signLamp);
 
+/**  -------------------------- Shelf Awards -------------------------- */
+// A certificate and a trophy on the top shelf, where the GitHub, YouTube and X blocks
+// were (see removedFromRoom). Built in code, see shelfAwards.js.
+const {
+  certificate,
+  trophy,
+  setNightMix: setShelfAwardsNightMix,
+} = createShelfAwards();
+// Standing on the shelf, which is at y 5.6 against the back wall
+certificate.position.set(-1.95, 5.6, -4.08);
+trophy.position.set(-1.05, 5.6, -4.08);
+[certificate, trophy].forEach((award) => {
+  award.scale.set(0, 0, 0);
+  award.userData.originalScale = new THREE.Vector3(1, 1, 1);
+  award.userData.initialScale = new THREE.Vector3(1, 1, 1);
+  objectsNeedingHitboxes.push(award);
+  scene.add(award);
+});
+
 /**  -------------------------- Raycaster setup -------------------------- */
 
 const raycasterObjects = [];
 let currentIntersects = [];
 let currentHoveredObject = null;
 
-const socialLinks = {
-  GitHub: "https://github.com/andrewwoan/sooahkimsfolio",
-  YouTube: "https://youtu.be/AB6sulUMRGE",
-  Twitter: "https://www.twitter.com/",
-};
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
@@ -1891,16 +1896,6 @@ function handleRaycasterInteraction() {
       }
     });
 
-    Object.entries(socialLinks).forEach(([key, url]) => {
-      if (object.name.includes(key)) {
-        const newWindow = window.open();
-        newWindow.opener = null;
-        newWindow.location = url;
-        newWindow.target = "_blank";
-        newWindow.rel = "noopener noreferrer";
-      }
-    });
-
     if (object.name.includes("Work_Button")) {
       showModal(modals.work);
     } else if (object.name.includes("About_Button")) {
@@ -1975,10 +1970,7 @@ function playHoverAnimation(objectHitbox, isHovering) {
       });
     } else if (
       object.name.includes("Contact_Button") ||
-      object.name.includes("My_Work_Button") ||
-      object.name.includes("GitHub") ||
-      object.name.includes("YouTube") ||
-      object.name.includes("Twitter")
+      object.name.includes("My_Work_Button")
     ) {
       gsap.to(object.rotation, {
         x: object.userData.initialRotation.x + Math.PI / 10,
@@ -2007,10 +1999,7 @@ function playHoverAnimation(objectHitbox, isHovering) {
     if (
       object.name.includes("About_Button") ||
       object.name.includes("Contact_Button") ||
-      object.name.includes("My_Work_Button") ||
-      object.name.includes("GitHub") ||
-      object.name.includes("YouTube") ||
-      object.name.includes("Twitter")
+      object.name.includes("My_Work_Button")
     ) {
       gsap.to(object.rotation, {
         x: object.userData.initialRotation.x,
@@ -2218,6 +2207,7 @@ const handleThemeToggle = (e) => {
     onUpdate: () => {
       setMailboxNightMix(nightMix.value);
       setSignLampNightMix(nightMix.value);
+      setShelfAwardsNightMix(nightMix.value);
     },
   });
 
