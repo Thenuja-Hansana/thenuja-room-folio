@@ -1977,6 +1977,12 @@ function playHoverAnimation(objectHitbox, isHovering) {
         duration: 0.5,
         ease: "back.out(2)",
       });
+    } else if (object.name.includes("Trophy")) {
+      gsap.to(object.rotation, {
+        y: object.userData.initialRotation.y + Math.PI / 6,
+        duration: 0.5,
+        ease: "back.out(2)",
+      });
     }
 
     if (object.name.includes("Boba") || object.name.includes("Name_Letter")) {
@@ -2003,6 +2009,12 @@ function playHoverAnimation(objectHitbox, isHovering) {
     ) {
       gsap.to(object.rotation, {
         x: object.userData.initialRotation.x,
+        duration: 0.3,
+        ease: "back.out(2)",
+      });
+    } else if (object.name.includes("Trophy")) {
+      gsap.to(object.rotation, {
+        y: object.userData.initialRotation.y,
         duration: 0.3,
         ease: "back.out(2)",
       });
