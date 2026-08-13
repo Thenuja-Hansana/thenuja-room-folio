@@ -585,6 +585,15 @@ ul.emoji-bullets {
   }
 }
 
+.x-logo {
+  width: 56px;
+  height: 56px;
+  &:hover {
+    transform: rotate(20deg) scale(1.3);
+  }
+}
+
+
 .xsm-margin-top {
   margin: 12px;
 }
@@ -675,6 +684,7 @@ ul.emoji-bullets {
 .linkedin,
 .instagram,
 .mail,
+.x-logo,
 .moon-svg {
   stroke: var(--icon);
   color: var(--icon);
