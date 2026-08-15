@@ -115,100 +115,120 @@
         <h1 class="modal-title">~ My Work ~</h1>
 
         <div class="modal-content">
+          <!-- One <article> per project. The GitHub links go to the profile for now:
+               swap in each project's repo (or add a "Live demo" link) when it's public -->
           <div class="modal-content-wrapper">
-            <div class="work-project">
-              <div class="work-project-wrapper">
-                <div class="work-image-wrapper">
-                  <img
-                    class="work-base-image"
-                    src="/images/community.webp"
-                    alt=""
-                    srcset=""
-                  />
-                </div>
-                <div class="paragraph-section">
-                  <h2 class="modal-paragraph-header">Community Leader</h2>
-                  <p class="modal-paragraph-text">
-                    Organized several events and outreach with local communities
-                    and business to help international students familiarize with
-                    Korean culture!
-                  </p>
-                  <p class="modal-paragraph-text sm-margin-top sm-font">
-                    Skills: Leadership, Communication, Community Building, Teamwork
-                  </p>
+            <article class="work-project">
+              <div class="work-image-wrapper">
+                <img
+                  class="work-base-image"
+                  src="/images/patient-managment.jpg"
+                  alt="Illustration of a doctor going through a patient's records on a tablet"
+                />
+              </div>
+              <div class="work-details">
+                <h2 class="work-title">
+                  Patient Management System
+                  <span class="work-title-tag">Microservices Backend</span>
+                </h2>
+                <p class="modal-paragraph-text">
+                  Built a production-ready patient management backend with services for patients, billing, analytics and authentication, communicating through REST, gRPC and Kafka events behind a JWT-secured API gateway.
+                </p>
+                <ul class="work-tech" aria-label="Tech stack">
+                  <li>Java</li>
+                  <li>Spring Boot</li>
+                  <li>Spring Cloud Gateway</li>
+                  <li>PostgreSQL</li>
+                  <li>gRPC</li>
+                  <li>Apache Kafka</li>
+                  <li>Docker</li>
+                  <li>AWS</li>
+                </ul>
+                <div class="work-links">
+                  <a
+                    class="work-link"
+                    href="https://github.com/Thenuja-Hansana"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub ↗</a
+                  >
                 </div>
               </div>
-            </div>
-            <div class="work-project">
-              <div class="work-project-wrapper">
-                <div class="work-image-wrapper">
-                  <img
-                    class="work-base-image"
-                    src="/images/computer.webp"
-                    alt=""
-                    srcset=""
-                  />
-                </div>
-                <div class="paragraph-section">
-                  <h2 class="modal-paragraph-header">MeloMochi</h2>
-                  <p class="modal-paragraph-text">
-                    During my piano teaching journey, I created MeloMochi, an AI-powered compositional tool that helps students learn music theory through hands-on exploration. I designed the system to generate piano exercises and short pieces that adapt to each student's skill level, combining my experience as a pianist with my machine learning expertise. Using TensorFlow and pretty_midi, I trained models on classical repertoire to create exercises that feel musical while targeting specific technical challenges. The web interface I built with React allows students to interact with the generated pieces, visualize patterns, and even modify them in real-time. Working closely with my students throughout development helped me refine the system to ensure it genuinely supports their learning process, making music theory more engaging and practical.
-                  </p>
-                  <p class="modal-paragraph-text sm-margin-top sm-font">
-                    Skills: Music Generation,
-                    TensorFlow,
-                    pretty_midi,
-                    Adaptive Learning,
-                    React,
-                    Music Theory,
-                    UX Design,
-                    Generative ML,
-                    Education Tech,
-                    Web Audio API
-                  </p>
+            </article>
+            <article class="work-project">
+              <div class="work-image-wrapper">
+                <img
+                  class="work-base-image"
+                  src="/images/rent-property.jpg"
+                  alt="Illustration of a family being handed the keys to a house for rent"
+                />
+              </div>
+              <div class="work-details">
+                <h2 class="work-title">
+                  Rentaly
+                  <span class="work-title-tag">Enterprise Property Rental Web App</span>
+                </h2>
+                <p class="modal-paragraph-text">
+                  Developed a property rental platform with map-based geospatial property search, role-based dashboards for tenant and lease management workflows, and payment tracking, fully deployed on AWS.
+                </p>
+                <ul class="work-tech" aria-label="Tech stack">
+                  <li>Next.js</li>
+                  <li>Redux Toolkit</li>
+                  <li>Node.js</li>
+                  <li>Express.js</li>
+                  <li>Prisma</li>
+                  <li>PostgreSQL</li>
+                  <li>Mapbox</li>
+                  <li>AWS</li>
+                  <li>shadcn/ui</li>
+                </ul>
+                <div class="work-links">
+                  <a
+                    class="work-link"
+                    href="https://github.com/Thenuja-Hansana"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub ↗</a
+                  >
                 </div>
               </div>
-            </div>
-            <div class="work-project">
-              <div class="work-project-wrapper">
-                <div class="work-image-wrapper">
-                  <img
-                    class="work-base-image"
-                    src="/images/piano.webp"
-                    alt=""
-                    srcset=""
-                  />
-                </div>
-                <div class="paragraph-section">
-                  <h2 class="modal-paragraph-header">
-                    PianoScope
-                  </h2>
-                  <p class="modal-paragraph-text">
-                    PianoScope is my passion project that combines my love for
-                    piano and machine learning. I co-created this AI-powered
-                    tool with fellow musicians to help us better understand our
-                    playing patterns. Using deep learning and audio processing
-                    techniques I implemented in Python and TensorFlow, the
-                    system analyzes recordings to detect nuances in timing,
-                    dynamics, and pedaling. I built the interactive
-                    visualization interface using React, allowing
-                    performers to see how these elements evolve.
-                  </p>
-                  <p class="modal-paragraph-text sm-margin-top sm-font">
-                    Skills: Audio Processing,
-                    Signal Analysis,
-                    Machine Learning,
-                    Data Visualization,
-                    TensorFlow,
-                    React,
-                    Python,
-                    DSP (Digital Signal Processing),
-                    Performance Analytics,
-                    Audio Classification
-                  </p>
+            </article>
+            <article class="work-project">
+              <div class="work-image-wrapper">
+                <img
+                  class="work-base-image"
+                  src="/images/go-api.jpg"
+                  alt="The Go gopher next to the words REST API in Go"
+                />
+              </div>
+              <div class="work-details">
+                <h2 class="work-title">
+                  GopherSocial
+                  <span class="work-title-tag">Social Network REST API</span>
+                </h2>
+                <p class="modal-paragraph-text">
+                  Built a social network REST API with user registration and email activation, token-based authentication and authorization, posts and following, with rate limiting, caching and automated CI/CD deployment to the cloud.
+                </p>
+                <ul class="work-tech" aria-label="Tech stack">
+                  <li>Go</li>
+                  <li>PostgreSQL</li>
+                  <li>Redis</li>
+                  <li>Docker</li>
+                  <li>Swagger</li>
+                  <li>GitHub Actions</li>
+                  <li>Google Cloud</li>
+                </ul>
+                <div class="work-links">
+                  <a
+                    class="work-link"
+                    href="https://github.com/Thenuja-Hansana"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >GitHub ↗</a
+                  >
                 </div>
               </div>
-            </div>
+            </article>
           </div>
         </div>
       </div>
