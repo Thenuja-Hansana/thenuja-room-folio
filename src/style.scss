@@ -484,9 +484,10 @@ ul.emoji-bullets {
   }
 }
 
+// Widescreen, so wide project images only lose a little at the sides
 .work-image-wrapper {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
 }
 
 .work-base-image {
