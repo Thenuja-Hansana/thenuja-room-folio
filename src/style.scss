@@ -204,6 +204,8 @@ ul.emoji-bullets {
   width: 100%;
   border-radius: 24px;
   object-fit: cover;
+  // It's a portrait, so if it has to be cropped keep the head and trim the bottom
+  object-position: center top;
   border: 6px solid var(--border);
 }
 
