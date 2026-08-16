@@ -28,7 +28,7 @@ const BACKGROUND_MUSIC_VOLUME = 1;
 const FADED_VOLUME = 0;
 
 const backgroundMusic = new Howl({
-  src: ["/audio/music/cosmic_candy.ogg"],
+  src: ["/audio/music/new_audio.mp3"],
   loop: true,
   volume: 1,
 });
