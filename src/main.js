@@ -24,13 +24,14 @@ let pianoDebounceTimer = null;
 let isMusicFaded = false;
 const MUSIC_FADE_TIME = 500;
 const PIANO_TIMEOUT = 2000;
-const BACKGROUND_MUSIC_VOLUME = 1;
+// 0 silent to 1 full volume. Kept low so it sits under the piano and click sounds (0.5)
+const BACKGROUND_MUSIC_VOLUME = 0.2;
 const FADED_VOLUME = 0;
 
 const backgroundMusic = new Howl({
   src: ["/audio/music/new_audio.mp3"],
   loop: true,
-  volume: 1,
+  volume: BACKGROUND_MUSIC_VOLUME,
 });
 
 const fadeOutBackgroundMusic = () => {
@@ -2326,7 +2327,7 @@ const render = (timestamp) => {
     // Get all the objects the raycaster is currently shooting through / intersecting with
     currentIntersects = raycaster.intersectObjects(raycasterObjects);
 
-    for (let i = 0; i < currentIntersects.length; i++) {}
+    for (let i = 0; i < currentIntersects.length; i++) { }
 
     if (currentIntersects.length > 0) {
       const currentIntersectObject = currentIntersects[0].object;
