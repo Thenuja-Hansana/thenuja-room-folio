@@ -118,8 +118,8 @@
         <h1 class="modal-title">~ My Work ~</h1>
 
         <div class="modal-content">
-          <!-- One <article> per project. The GitHub links go to the profile for now:
-               swap in each project's repo (or add a "Live demo" link) when it's public -->
+          <!-- One <article> per project, in the same order as the Projects section of the CV.
+               Each GitHub link goes to the project's repo; add a "Live demo" link if it's hosted -->
           <div class="modal-content-wrapper">
             <article class="work-project">
               <div class="work-image-wrapper">
@@ -132,10 +132,10 @@
               <div class="work-details">
                 <h2 class="work-title">
                   Patient Management System
-                  <span class="work-title-tag">Microservices Backend</span>
+                  <span class="work-title-tag">Microservices Healthcare Application</span>
                 </h2>
                 <p class="modal-paragraph-text">
-                  Built a production-ready patient management backend with services for patients, billing, analytics and authentication, communicating through REST, gRPC and Kafka events behind a JWT-secured API gateway.
+                  Developed a patient management platform as five Spring Boot microservices behind a JWT-secured API gateway, with gRPC billing-account creation and Kafka event-driven analytics shown on a React dashboard.
                 </p>
                 <ul class="work-tech" aria-label="Tech stack">
                   <li>Java</li>
@@ -143,14 +143,15 @@
                   <li>Spring Cloud Gateway</li>
                   <li>PostgreSQL</li>
                   <li>gRPC</li>
-                  <li>Apache Kafka</li>
+                  <li>Kafka</li>
                   <li>Docker</li>
-                  <li>AWS</li>
+                  <li>React</li>
+                  <li>Tailwind CSS</li>
                 </ul>
                 <div class="work-links">
                   <a
                     class="work-link"
-                    href="https://github.com/Thenuja-Hansana"
+                    href="https://github.com/Thenuja-Hansana/patient-managment-system"
                     target="_blank"
                     rel="noopener noreferrer"
                     >GitHub ↗</a
@@ -162,33 +163,32 @@
               <div class="work-image-wrapper">
                 <img
                   class="work-base-image"
-                  src="/images/rent-property.jpg"
-                  alt="Illustration of a family being handed the keys to a house for rent"
+                  src="/images/subtrack.webp"
+                  alt="Subtrack banner listing three example subscriptions with the days left until each one renews"
                 />
               </div>
               <div class="work-details">
                 <h2 class="work-title">
-                  Rentaly
-                  <span class="work-title-tag">Enterprise Property Rental Web App</span>
+                  Subtrack
+                  <span class="work-title-tag">Subscription Management REST API</span>
                 </h2>
                 <p class="modal-paragraph-text">
-                  Developed a property rental platform with map-based geospatial property search, role-based dashboards for tenant and lease management workflows, and payment tracking, fully deployed on AWS.
+                  Built a subscription tracking API on a Node.js and Express backend with JWT authentication, Arcjet rate limiting, bot detection and email validation, and automated renewal reminders through Upstash Workflow.
                 </p>
                 <ul class="work-tech" aria-label="Tech stack">
-                  <li>Next.js</li>
-                  <li>Redux Toolkit</li>
                   <li>Node.js</li>
                   <li>Express.js</li>
-                  <li>Prisma</li>
-                  <li>PostgreSQL</li>
-                  <li>Mapbox</li>
-                  <li>AWS</li>
-                  <li>shadcn/ui</li>
+                  <li>MongoDB</li>
+                  <li>Mongoose</li>
+                  <li>JWT</li>
+                  <li>Arcjet</li>
+                  <li>Upstash Workflows</li>
+                  <li>Nodemailer</li>
                 </ul>
                 <div class="work-links">
                   <a
                     class="work-link"
-                    href="https://github.com/Thenuja-Hansana"
+                    href="https://github.com/Thenuja-Hansana/subscription-tracker"
                     target="_blank"
                     rel="noopener noreferrer"
                     >GitHub ↗</a
@@ -200,34 +200,41 @@
               <div class="work-image-wrapper">
                 <img
                   class="work-base-image"
-                  src="/images/go-api.jpg"
-                  alt="The Go gopher next to the words REST API in Go"
+                  src="/images/movefy.webp"
+                  alt="Movefy home page with a search bar above a grid of popular movie posters"
                 />
               </div>
               <div class="work-details">
                 <h2 class="work-title">
-                  GopherSocial
-                  <span class="work-title-tag">Social Network REST API</span>
+                  Movefy
+                  <span class="work-title-tag">Movie Discovery Website</span>
                 </h2>
                 <p class="modal-paragraph-text">
-                  Built a social network REST API with user registration and email activation, token-based authentication and authorization, posts and following, with rate limiting, caching and automated CI/CD deployment to the cloud.
+                  Built a movie discovery website with a React frontend on TMDB's free API, with client-side routing through React Router and favourites managed through React Context, deployed on Vercel.
                 </p>
                 <ul class="work-tech" aria-label="Tech stack">
-                  <li>Go</li>
-                  <li>PostgreSQL</li>
-                  <li>Redis</li>
-                  <li>Docker</li>
-                  <li>Swagger</li>
-                  <li>GitHub Actions</li>
-                  <li>Google Cloud</li>
+                  <li>React</li>
+                  <li>Vite</li>
+                  <li>JavaScript</li>
+                  <li>React Router</li>
+                  <li>TMDB API</li>
+                  <li>CSS</li>
+                  <li>Vercel</li>
                 </ul>
                 <div class="work-links">
                   <a
                     class="work-link"
-                    href="https://github.com/Thenuja-Hansana"
+                    href="https://github.com/Thenuja-Hansana/react-movie-app"
                     target="_blank"
                     rel="noopener noreferrer"
                     >GitHub ↗</a
+                  >
+                  <a
+                    class="work-link"
+                    href="https://movefy.thenujahansana.dev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >Live demo ↗</a
                   >
                 </div>
               </div>
